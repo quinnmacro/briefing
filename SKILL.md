@@ -59,6 +59,16 @@ For each `data_sources` entry in the template:
 **WebSearch/WebFetch** for qualitative data not covered by MCP:
 - IPO details, policy news, geopolitical developments
 
+**Tavily AI Search** (preferred over WebSearch for structured research):
+- Run `python scripts/tavily_search.py --gaofang` for all gaofang briefing queries
+- Run `python scripts/tavily_search.py --query "Iran war oil price"` for single query
+- Run `python scripts/tavily_search.py --extract URL1,URL2` to pull full article content
+- `--search-depth advanced` for deeper research (default: basic)
+- Output: `output/tavily_results.json` with structured results per query
+- Requires: `TAVILY_API_KEY` in `.env` (get key at tavily.com)
+
+Priority: xbbg > Tavily > WebSearch > openecon MCP
+
 Collect all data into a structured notebook before writing prose.
 
 ### Step 4: Compose content
@@ -116,6 +126,7 @@ Files produced:
 
 - Node.js + npm (docx, yaml packages) — for .docx generation
 - Python + xbbg + Bloomberg Terminal — for direct Bloomberg data fetching
+- Python + tavily-python + python-dotenv — for Tavily AI Search
 - QuinnMacro Bloomberg MCP (deployed at mcp.quinnmacro.com) — alternative data source
 - OpenEcon Data MCP (installed as plugin) — macro indicators
 - WebSearch/WebFetch for qualitative data
