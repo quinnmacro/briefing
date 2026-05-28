@@ -1,4 +1,6 @@
 node_modules/
-output/*.docx
+output/
+state/
 ~$*.docx
-state/last-version.json
+.DS_Store
+__pycache__/

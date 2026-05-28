@@ -46,6 +46,13 @@ For each `data_sources` entry in the template:
 - `get_bbg_fed_path` when template references Fed rate path
 - `get_bbg_by_ticker_history` for trend context (optional)
 
+**xbbg direct (preferred)** — if Bloomberg Terminal is running locally:
+- Run `python scripts/fetch_bbg.py --gaofang` to fetch all gaofang tickers at once
+- Run `python scripts/fetch_bbg.py --tickers DGS10,BRENT --fields px_last,px_last_1m_chng_pct` for specific tickers
+- Output: `output/bbg_data.json` with current values + optional history
+- xbbg gives direct Terminal access: faster, more fields, no latency or auth issues
+- Ticker mapping: see `scripts/fetch_bbg.py` GAOFANG_TICKERS dict (short IDs → Bloomberg tickers)
+
 **OpenEcon Data MCP** (`openecon_data`):
 - `query_data` for each natural language query in data_sources
 
@@ -107,7 +114,8 @@ Files produced:
 
 ## Dependencies
 
-- Node.js + npm (docx, yaml packages)
-- QuinnMacro Bloomberg MCP (deployed at mcp.quinnmacro.com)
-- OpenEcon Data MCP (installed as plugin)
+- Node.js + npm (docx, yaml packages) — for .docx generation
+- Python + xbbg + Bloomberg Terminal — for direct Bloomberg data fetching
+- QuinnMacro Bloomberg MCP (deployed at mcp.quinnmacro.com) — alternative data source
+- OpenEcon Data MCP (installed as plugin) — macro indicators
 - WebSearch/WebFetch for qualitative data
