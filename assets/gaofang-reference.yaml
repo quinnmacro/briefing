@@ -129,30 +129,18 @@ chapters:
 
   - id: hot_topics
     heading: "六、当前市场热点与头条"
-    instructions: "热点章节是6页篇幅的重点内容，数据以WebSearch为主、MCP为辅。"
+    instructions: >
+      动态章节：根据本周WebSearch新闻和MCP数据，选择3-6个当期最重要热点专题，
+      每个专题1-2页篇幅。不硬编码具体专题——由Claude根据当期新闻动态决定。
+      常见方向参考（非必须覆盖）：AI/算力产业链、半导体与存储、重要IPO进展、
+      出口管制与供应链、地缘冲突(伊朗等)、香港新经济热点。
+      也可出现全新专题。数据以WebSearch为主、Bloomberg MCP为辅。
+    dynamic: true
     data_sources:
       - mcp: "quinnmacro_bloomberg"
         tool: "get_bbg_by_ticker"
         series: ["BRENT", "GOLD", "VIX"]
-    sections:
-      - id: ai_compute
-        heading: "（一）人工智能与全球算力产业链"
-        instructions: "北美四大capex、Blackwell/Rubin放量、CoWoS约束、HBM、光模块、电力液冷、中国侧算力链。"
-      - id: semiconductor_storage
-        heading: "（二）全球半导体周期与中国存储产业"
-        instructions: "HBM紧缺、DRAM价格、国产存储生态(长鑫+长江+长电+北方华创)、国际格局。"
-      - id: cxmt_ipo
-        heading: "（三）长鑫科技科创板上市进展"
-        instructions: "上会日期、拟募资、基本面(营收/净利/指引)、股东结构(五大行AIC)、长江存储联动。"
-      - id: export_control
-        heading: "（四）出口管制与全球供应链重组"
-        instructions: "BIS管制框架、VEU/FDPR、产业反馈(国产替代)、全球多点布局、对香港含义。"
-      - id: iran_war
-        heading: "（五）伊朗战争、能源与地缘"
-        instructions: "战事节点、布伦特区间、霍尔木兹、对全球传导(通胀/避险/航运)、对中国与香港。"
-      - id: hk_new_hot
-        heading: "（六）香港新热点：虚拟资产、家族办公室、北部都会区"
-        instructions: "VATP/稳定币/代币化债券、家办/CIES、北都/河套、绿色金融、互联互通深化。"
+    sections: []
 
   - id: appendix
     heading: "七、附录：关键数据速查表"
