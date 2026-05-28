@@ -1,0 +1,209 @@
+# 高访参阅材料 — 完整YAML模板
+# 七章结构 + 四张附录表 + 数据源绑定
+
+document:
+  title: "高访参阅材料"
+  subtitle: "市场概况与热点要览"
+  creator: "BOCHK"
+  header_template: "{title}  ·  {subtitle}"
+  date_template: "数据截止：{date}"
+
+page:
+  size: "A4"
+  margins: { top: 1500, right: 1300, bottom: 1500, left: 1300 }
+
+cover:
+  title_size: 44
+  subtitle_size: 32
+  subtitle_color: "404040"
+  rule: true
+
+toc:
+  title: "目  录"
+  title_size: 34
+
+chapters:
+  - id: key_points
+    heading: "一、本期要点"
+    instructions: "10条要点，每条 bold lead-in + 数据支撑。覆盖香港、内地、美欧日宏观、AI/半导体、伊朗战事、香港定位。"
+    data_sources:
+      - mcp: "quinnmacro_bloomberg"
+        tool: "get_bbg_by_ticker"
+        series: ["DGS10", "BRENT", "GOLD", "SPX", "DXY", "VIX"]
+      - mcp: "openecon_data"
+        queries:
+          - "Hong Kong GDP Q1 2026"
+          - "China GDP growth Q1 2026"
+          - "China CPI April 2026"
+          - "US GDP Q1 2026"
+
+  - id: hk_market
+    heading: "二、香港本地市场重点概况"
+    data_sources:
+      - mcp: "quinnmacro_bloomberg"
+        tool: "get_bbg_by_ticker"
+        series: ["DGS10", "IG_OAS", "HY_OAS"]
+      - mcp: "openecon_data"
+        queries:
+          - "Hong Kong GDP Q1 2026 growth"
+          - "Hong Kong CPI April 2026"
+          - "Hong Kong unemployment rate"
+          - "Hong Kong retail sales"
+    sections:
+      - id: hk_macro
+        heading: "（一）宏观经济：增长创近五年新高"
+        instructions: "GDP增速、消费/投资/出口分项、CPI、失业率、外汇储备。首行缩进公文体。"
+      - id: hk_banking
+        heading: "（二）银行体系与货币市场"
+        instructions: "存款总额、人民币存款、贷款、贷存比、按揭拖欠、HIBOR走势。"
+      - id: hk_capital
+        heading: "（三）资本市场：IPO 与互联互通"
+        instructions: "IPO数量/募资额、上市申请数、承销份额、ADT、债券通、恒指区间。"
+      - id: hk_fincenter
+        heading: "（四）香港国际金融中心功能与近期头条"
+        instructions: "IMF评估、离岸人民币、北都、创科融资。"
+
+  - id: china_macro
+    heading: "三、中国宏观经济"
+    data_sources:
+      - mcp: "openecon_data"
+        queries:
+          - "China GDP Q1 2026"
+          - "China industrial production April 2026"
+          - "China CPI PPI April 2026"
+          - "China PMI April 2026"
+          - "China trade balance April 2026"
+    sections:
+      - id: cn_growth
+        heading: "（一）增长、生产与需求"
+        instructions: "GDP增速、规上工业、高技术制造、社零、固定资产投资、外贸。"
+      - id: cn_price_money
+        heading: "（二）物价、外贸与货币金融"
+        instructions: "CPI/PPI、LPR/MLF、社融、产业政策(AIC/大基金三期)、地产链。"
+
+  - id: major_econ
+    heading: "四、主要经济体基本面"
+    data_sources:
+      - mcp: "quinnmacro_bloomberg"
+        tool: "get_bbg_by_ticker"
+        series: ["DGS10", "DE10Y", "GB10Y", "JP10Y", "EFFR", "SOFR"]
+      - mcp: "quinnmacro_bloomberg"
+        tool: "get_bbg_fed_path"
+      - mcp: "openecon_data"
+        queries:
+          - "US GDP Q1 2026"
+          - "US CPI April 2026"
+          - "Euro area GDP Q1 2026"
+          - "Euro area HICP April 2026"
+          - "Japan GDP Q1 2026"
+    sections:
+      - id: us_econ
+        heading: "（一）美国：增长温和反弹，政策框架进入交接期"
+        instructions: "GDP、失业率、CPI、FOMC决议、沃什交易、10Y美债。"
+      - id: eu_econ
+        heading: "（二）欧元区：弱增长格局下的再通胀与能源扰动"
+        instructions: "GDP、HICP、ECB利率、德债。"
+      - id: jp_econ
+        heading: "（三）日本：政策正常化方向不变"
+        instructions: "BOJ利率、春斗、USD/JPY、对港传导。"
+
+  - id: global_finance
+    heading: "五、全球金融市场近况"
+    data_sources:
+      - mcp: "quinnmacro_bloomberg"
+        tool: "get_bbg_by_ticker"
+        series: ["DGS2", "DGS10", "T10Y2Y", "T10YIE", "MOVE", "VIX", "SKEW",
+                 "SPX", "DXY", "BRENT", "GOLD", "SILVER",
+                 "IG_OAS", "HY_OAS", "EM_SPREAD",
+                 "DE10Y", "GB10Y", "JP10Y"]
+    sections:
+      - id: fixed_income
+        heading: "（一）固定收益"
+        instructions: "美/德/英/日10Y、信用利差IG/HY/EM、中国10Y。"
+      - id: equity_fx
+        heading: "（二）权益与汇率"
+        instructions: "恒指/红筹/科技指数区间、A股、DXY、CNH/CNY。"
+      - id: commodities
+        heading: "（三）大宗商品"
+        instructions: "布伦特/WTI、霍尔木兹风险、黄金、铜。"
+
+  - id: hot_topics
+    heading: "六、当前市场热点与头条"
+    instructions: "热点章节是6页篇幅的重点内容，数据以WebSearch为主、MCP为辅。"
+    data_sources:
+      - mcp: "quinnmacro_bloomberg"
+        tool: "get_bbg_by_ticker"
+        series: ["BRENT", "GOLD", "VIX"]
+    sections:
+      - id: ai_compute
+        heading: "（一）人工智能与全球算力产业链"
+        instructions: "北美四大capex、Blackwell/Rubin放量、CoWoS约束、HBM、光模块、电力液冷、中国侧算力链。"
+      - id: semiconductor_storage
+        heading: "（二）全球半导体周期与中国存储产业"
+        instructions: "HBM紧缺、DRAM价格、国产存储生态(长鑫+长江+长电+北方华创)、国际格局。"
+      - id: cxmt_ipo
+        heading: "（三）长鑫科技科创板上市进展"
+        instructions: "上会日期、拟募资、基本面(营收/净利/指引)、股东结构(五大行AIC)、长江存储联动。"
+      - id: export_control
+        heading: "（四）出口管制与全球供应链重组"
+        instructions: "BIS管制框架、VEU/FDPR、产业反馈(国产替代)、全球多点布局、对香港含义。"
+      - id: iran_war
+        heading: "（五）伊朗战争、能源与地缘"
+        instructions: "战事节点、布伦特区间、霍尔木兹、对全球传导(通胀/避险/航运)、对中国与香港。"
+      - id: hk_new_hot
+        heading: "（六）香港新热点：虚拟资产、家族办公室、北部都会区"
+        instructions: "VATP/稳定币/代币化债券、家办/CIES、北都/河套、绿色金融、互联互通深化。"
+
+  - id: appendix
+    heading: "七、附录：关键数据速查表"
+    instructions: "四张数据表，行数据从MCP/WebSearch获取。每张表前用h3标题。"
+
+tables:
+  - id: econ_indicators
+    title: "表一  主要经济体核心指标"
+    columns:
+      - { header: "经济体", width: 1500 }
+      - { header: "GDP（最新季）", width: 1900 }
+      - { header: "CPI（4月）", width: 1900 }
+      - { header: "失业率", width: 1900 }
+      - { header: "政策利率", width: 1600 }
+    data_sources:
+      - mcp: "openecon_data"
+        queries:
+          - "China GDP CPI unemployment 2026"
+          - "Hong Kong GDP CPI unemployment 2026"
+          - "US GDP CPI unemployment 2026"
+          - "Euro area GDP HICP unemployment 2026"
+          - "Japan GDP CPI unemployment 2026"
+
+  - id: hk_financial
+    title: "表二  香港核心金融指标"
+    columns:
+      - { header: "指标", width: 4400 }
+      - { header: "数值", width: 4400 }
+    data_sources:
+      - mcp: "openecon_data"
+        queries:
+          - "Hong Kong deposits loans Q1 2026"
+          - "Hong Kong IPO Q1 2026"
+          - "Hong Kong stock market ADT Q1 2026"
+
+  - id: cxmt_ipo
+    title: "表三  长鑫科技 IPO 要点"
+    columns:
+      - { header: "项目", width: 3000 }
+      - { header: "内容", width: 5800 }
+    data_sources:
+      - mcp: "WebSearch"
+        queries: ["长鑫科技科创板 IPO 2026年5月27日"]
+
+  - id: market_snapshot
+    title: "表四  主要金融市场行情"
+    columns:
+      - { header: "类别", width: 3000 }
+      - { header: "指标", width: 2900 }
+      - { header: "数值／区间", width: 2900 }
+    data_sources:
+      - mcp: "quinnmacro_bloomberg"
+        tool: "get_bbg_by_ticker"
+        series: ["DGS10", "DE10Y", "JP10Y", "DXY", "BRENT", "GOLD", "SPX", "VIX"]

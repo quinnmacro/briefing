@@ -1,0 +1,14 @@
+{
+  "name": "briefing",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Financial briefing document generator with YAML template + JSON manifest",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "node src/index.js"
+  },
+  "dependencies": {
+    "docx": "^9.7.0",
+    "yaml": "^2.7.0"
+  }
+}

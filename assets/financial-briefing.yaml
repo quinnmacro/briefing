@@ -1,0 +1,54 @@
+# 通用金融简报框架
+# 可适配任何市场/主题的金融参阅材料
+
+document:
+  title: "{{title}}"
+  subtitle: "{{subtitle}}"
+  creator: "Briefing Generator"
+  header_template: "{title}  ·  {subtitle}"
+  date_template: "数据截止：{date}"
+
+page:
+  size: "A4"
+  margins: { top: 1500, right: 1300, bottom: 1500, left: 1300 }
+
+cover:
+  title_size: 44
+  subtitle_size: 32
+  subtitle_color: "404040"
+  rule: true
+
+toc:
+  title: "目  录"
+  title_size: 34
+
+# Generic 5-chapter skeleton — Claude adapts per user's topic specification
+chapters:
+  - id: executive_summary
+    heading: "一、本期要点"
+    instructions: "5-10条要点，bold lead-in + 数据支撑。覆盖用户指定市场和主题的核心动向。"
+    data_sources: []  # Claude determines based on topic
+
+  - id: market_overview
+    heading: "二、市场概况"
+    instructions: "主要市场宏观数据、关键指标、政策动向。"
+    data_sources: []
+    sections: []  # Claude creates sub-sections based on markets specified
+
+  - id: key_topics
+    heading: "三、当前热点与头条"
+    instructions: "2-4个深度专题，每个1-2页篇幅。"
+    data_sources: []
+    sections: []
+
+  - id: data_tables
+    heading: "四、关键数据速查表"
+    instructions: "2-3张数据表格，覆盖核心指标。"
+    data_sources: []
+
+  - id: outlook
+    heading: "五、展望与风险提示"
+    instructions: "短期展望、主要风险因子、需要关注的事件节点。"
+    data_sources: []
+
+tables: []  # Claude defines table schemas based on topic

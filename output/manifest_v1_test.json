@@ -1,0 +1,41 @@
+{
+  "template": "gaofang-reference",
+  "version": 1,
+  "date": "2026-05-28",
+  "title": "高访参阅材料",
+  "subtitle": "市场概况与热点要览",
+  "chapters": [
+    {
+      "id": "test_chapter",
+      "heading": "一、测试章节",
+      "sections": [
+        {
+          "id": "test_section",
+          "heading": "（一）测试小节",
+          "blocks": [
+            { "type": "body_para", "text": "这是测试正文内容，首行缩进。" },
+            { "type": "flush_para", "text": "• 测试列表项，不缩进" },
+            { "type": "body_para", "runs": [
+              { "text": "加粗开头。", "bold": true },
+              { "text": "后面是正常文字。" }
+            ]},
+            { "type": "page_break" },
+            { "type": "h3", "text": "表一  测试数据表" },
+            { "type": "data_table",
+              "columns": [
+                { "header": "指标", "width": 3000 },
+                { "header": "数值", "width": 4400 },
+                { "header": "备注", "width": 1400 }
+              ],
+              "rows": [
+                { "cells": ["GDP增长率", "+5.0%", "一季度"] },
+                { "cells": ["CPI", "+1.2%", "4月"] },
+                { "cells": ["失业率", "3.7%", "2—4月"] }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
