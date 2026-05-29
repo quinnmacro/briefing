@@ -1,4 +1,4 @@
-"""
+﻿"""
 Search and extract content via Tavily AI Search API.
 Outputs structured JSON for the briefing manifest.
 
@@ -12,17 +12,18 @@ Usage:
 Requires: TAVILY_API_KEY set in .env or environment.
 """
 
+from __future__ import annotations
 import argparse
 import json
 import os
 import sys
 from datetime import datetime
+from typing import Dict, List, Any
 
 try:
     from dotenv import load_dotenv
     load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
 except ImportError:
-    # dotenv not installed, rely on env vars directly
     pass
 
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY", "")
@@ -33,30 +34,23 @@ except ImportError:
     print("Error: tavily-python not installed. Run: pip install tavily-python python-dotenv")
     sys.exit(1)
 
-
-# Default queries for the gaofang briefing
-GAOFANG_QUERIES = [
-    # HK macro
+GAOFANG_QUERIES: List[str] = [
     "Hong Kong GDP Q1 2026 economic data growth",
     "Hong Kong CPI unemployment rate 2026",
     "Hong Kong IPO market 2026 listing statistics fundraising",
-    # China macro
     "China GDP CPI PMI trade balance April 2026 latest data",
     "China industrial production retail sales April 2026",
-    # US / global macro
     "US GDP inflation Fed rate decision May 2026",
     "Eurozone GDP HICP ECB rate 2026",
     "Japan BOJ rate hike USDJPY 2026",
-    # Hot topics
     "Iran war oil price Strait of Hormuz May 2026",
     "AI semiconductor industry news 2026",
-    "长鑫科技科创板 IPO 2026年5月",
-    # HK fincenter
+    "长鑫科技科创板IPO 2026年5月",
     "Hong Kong virtual asset regulation family office 2026",
 ]
 
 
-def search(query, search_depth="basic", max_results=5, include_raw_content=False):
+def search(query: str, search_depth: str = "basic", max_results: int = 5, include_raw_content: bool = False) -> Dict[str, Any]:
     """Perform a Tavily search and return structured results."""
     if not TAVILY_API_KEY:
         print("Error: TAVILY_API_KEY not set. Add it to .env or environment.")
@@ -70,7 +64,7 @@ def search(query, search_depth="basic", max_results=5, include_raw_content=False
         include_raw_content=include_raw_content,
     )
 
-    results = []
+    results: List[Dict[str, Any]] = []
     for r in response.get("results", []):
         entry = {
             "title": r.get("title", ""),
@@ -91,7 +85,7 @@ def search(query, search_depth="basic", max_results=5, include_raw_content=False
     }
 
 
-def extract(urls):
+def extract(urls: List[str]) -> Dict[str, Any]:
     """Extract raw content from URLs via Tavily extract API."""
     if not TAVILY_API_KEY:
         print("Error: TAVILY_API_KEY not set.")
@@ -100,12 +94,9 @@ def extract(urls):
     client = TavilyClient(api_key=TAVILY_API_KEY)
     response = client.extract(urls=urls)
 
-    extracted = []
+    extracted: List[Dict[str, str]] = []
     for r in response.get("results", []):
-        entry = {
-            "url": r.get("url", ""),
-            "content": r.get("content", ""),
-        }
+        entry = {"url": r.get("url", ""), "content": r.get("content", "")}
         extracted.append(entry)
 
     return {
@@ -115,21 +106,26 @@ def extract(urls):
     }
 
 
-def main():
+def main() -> None:
+    """Main entry point."""
     parser = argparse.ArgumentParser(description="Search via Tavily AI Search API")
     parser.add_argument("--query", help="Single search query")
     parser.add_argument("--queries-file", help="File with queries (one per line)")
     parser.add_argument("--gaofang", action="store_true", help="Run all gaofang briefing queries")
     parser.add_argument("--extract", help="URLs to extract (comma-separated)")
-    parser.add_argument("--search-depth", default="basic", choices=["basic", "advanced"],
-                        help="Search depth: basic (fast) or advanced (deep)")
-    parser.add_argument("--max-results", type=int, default=5, help="Max results per query")
-    parser.add_argument("--include-raw", action="store_true", help="Include raw content in results")
-    parser.add_argument("--output", default="output/tavily_results.json", help="Output JSON path")
+    parser.add_argument("--search-depth", default="basic", choices=["basic", "advanced"])
+    parser.add_argument("--max-results", type=int, default=5)
+    parser.add_argument("--include-raw", action="store_true")
+    parser.add_argument("--output", default="output/tavily_results.json")
     args = parser.parse_args()
 
-    queries = []
+    # Path traversal protection
+    output_dir = os.path.dirname(os.path.abspath(args.output))
+    if not os.path.commonpath([os.path.abspath("."), output_dir]) == os.path.abspath("."):
+        print(f"Error: Output path outside workspace: {args.output}")
+        sys.exit(1)
 
+    queries: List[str] = []
     if args.gaofang:
         queries = GAOFANG_QUERIES
         args.search_depth = "advanced"
@@ -142,29 +138,21 @@ def main():
         print("Specify --query, --queries-file, or --gaofang")
         sys.exit(1)
 
-    # Extract mode
     if args.extract:
         urls = [u.strip() for u in args.extract.split(",")]
         print(f"Extracting content from {len(urls)} URLs...")
         result = extract(urls)
         result["fetch_date"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        import os
         os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
         with open(args.output, "w", encoding="utf-8") as f:
             json.dump(result, f, indent=2, ensure_ascii=False)
         print(f"OK: {args.output}")
         return
 
-    # Search mode
-    all_results = []
+    all_results: List[Dict[str, Any]] = []
     for i, q in enumerate(queries):
         print(f"[{i+1}/{len(queries)}] Searching: {q}")
-        r = search(
-            query=q,
-            search_depth=args.search_depth,
-            max_results=args.max_results,
-            include_raw_content=args.include_raw,
-        )
+        r = search(query=q, search_depth=args.search_depth, max_results=args.max_results, include_raw_content=args.include_raw)
         all_results.append(r)
 
     output = {
@@ -174,7 +162,6 @@ def main():
         "results": all_results,
     }
 
-    import os
     os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)

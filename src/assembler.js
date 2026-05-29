@@ -1,4 +1,4 @@
-// Assembler: Document shell + Packer output
+﻿// Assembler: Document shell + Packer output
 // Creates the final Document object with styles, page layout, header/footer
 
 import { Document, Packer, Header, Footer, Paragraph, TextRun,

@@ -1,4 +1,4 @@
-// Renderer: manifest blocks → docx Paragraph/Table elements
+﻿// Renderer: manifest blocks → docx Paragraph/Table elements
 // Pure function layer — no network, no MCP, no randomness
 
 import { Paragraph, TextRun, Table, TableRow, Header, Footer,
